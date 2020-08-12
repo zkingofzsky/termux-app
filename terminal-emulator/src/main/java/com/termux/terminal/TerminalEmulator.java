@@ -1267,6 +1267,7 @@ public final class TerminalEmulator {
                 break;
             case 'c': // RIS - Reset to Initial State (http://vt100.net/docs/vt510-rm/RIS).
                 reset();
+                mMainBuffer.clearTranscript();
                 blockClear(0, 0, mColumns, mRows);
                 setCursorPosition(0, 0);
                 break;
@@ -1376,10 +1377,10 @@ public final class TerminalEmulator {
             }
             break;
             case 'A': // "CSI${n}A" - Cursor up (CUU) ${n} rows.
-                setCursorRow(Math.max(mTopMargin, mCursorRow - getArg0(1)));
+                setCursorRow(Math.max(0, mCursorRow - getArg0(1)));
                 break;
             case 'B': // "CSI${n}B" - Cursor down (CUD) ${n} rows.
-                setCursorRow(Math.min(mBottomMargin - 1, mCursorRow + getArg0(1)));
+                setCursorRow(Math.min(mRows - 1, mCursorRow + getArg0(1)));
                 break;
             case 'C': // "CSI${n}C" - Cursor forward (CUF).
             case 'a': // "CSI${n}a" - Horizontal position relative (HPR). From ISO-6428/ECMA-48.
